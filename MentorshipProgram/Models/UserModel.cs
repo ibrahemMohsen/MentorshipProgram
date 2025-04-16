@@ -4,7 +4,7 @@ namespace MentorshipProgram.Models;
 public class UserModel
 {
     [Key]
-    public string UserName { get; init; }
+    public string UserName { get; set; }
     [Required]
     public string Password { get; set; }
     [Required]
@@ -12,10 +12,11 @@ public class UserModel
 
     public string Field { get; set; }
 
-    //UserModel(string UserName, string Password, string Name)
-    //{
-    //    this.UserName = UserName;
-    //    this.Password = Password;
-    //    this.Name = Name;
-    //}
+    public UserModel(string UserName, string Password, string Name)
+    {
+        this.UserName = UserName;
+        this.Password = Password;
+        this.Name = Name;
+    }
+    public UserModel() { }
 }

@@ -15,7 +15,7 @@ namespace MentorshipProgram
                 ));
             
             // Comment if Poor Performance is encoutered
-            builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+            //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
             var app = builder.Build();
 

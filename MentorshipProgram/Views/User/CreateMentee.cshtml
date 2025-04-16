@@ -1,0 +1,44 @@
+﻿@model MenteeModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create User</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="User.Name">Name</label>
+			<input asp-for="User.Name" class="form-control" />
+			<span asp-validation-for="User.Name" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="User.UserName">User Name</label>
+			<input asp-for="User.UserName" class="form-control" />
+			<span asp-validation-for="User.UserName" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="User.Password">Password</label>
+			<input asp-for="User.Password" class="form-control" />
+			<span asp-validation-for="User.Password" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="User.Field">Field</label>
+			<input asp-for="User.Field" class="form-control" />
+			<span asp-validation-for="User.Field" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label>Interests (comma‑separated)</label>
+			<input name="InterestsAsCsv"
+				   class="form-control"
+				   asp-for="Interests"
+				   @* value="@(string.Join(',', MenteeModel.Interests))" *@
+			/>
+			<span class="text-muted">e.g. “Cooking, Hiking, Gaming”</span>
+		</div>
+
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<a asp-controller="User" asp-action="CreateMentee" class="btn btn-secondary" style="width:150px">
+			Back To List
+		</a>
+	</div>
+</form>
