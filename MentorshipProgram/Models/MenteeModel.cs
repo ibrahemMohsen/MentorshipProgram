@@ -7,9 +7,8 @@ namespace MentorshipProgram.Models;
 
 public class MenteeModel
 {
-    [Key]
+    [Key, ForeignKey(nameof(User))]
     public string UserName { get; set; } 
-    [ForeignKey("UserName")]
     public UserModel User { get; set; }
-    public List<string> Interests { get; set; } = new List<string>();
+    public string Interests { get; set; }
 }

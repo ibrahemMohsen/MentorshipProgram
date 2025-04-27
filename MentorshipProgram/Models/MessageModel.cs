@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MentorshipProgram.Models;
 
@@ -12,5 +13,13 @@ public class MessageModel
     public string ReceiverEmail { get; set; }
     [Required]
     public string Body { get; set; }
-    DateTime TimeSent { get; set; } = DateTime.Now;
+
+
+    public DateTime TimeSent { get; set; } = DateTime.Now;
+
+    [ForeignKey("Chat")]
+    public int ChatId { get; set; }
+
+    public virtual ChatModel Chat { get; set; }
+
 }

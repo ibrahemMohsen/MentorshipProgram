@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MentorshipProgram.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250414160152_UserAndMessageModels")]
-    partial class UserAndMessageModels
+    [Migration("20250427175409_MessageAndChatModels2")]
+    partial class MessageAndChatModels2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,12 +48,33 @@ namespace MentorshipProgram.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("MentorshipProgram.Models.ChatModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Participant1Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Participant2Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("MentorshipProgram.Models.MenteeModel", b =>
                 {
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.PrimitiveCollection<string>("Interests")
+                    b.Property<string>("Interests")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -87,6 +108,9 @@ namespace MentorshipProgram.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReceiverEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -95,7 +119,12 @@ namespace MentorshipProgram.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("TimeSent")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
 
                     b.ToTable("Messages");
                 });
@@ -119,7 +148,7 @@ namespace MentorshipProgram.Migrations
 
                     b.HasKey("UserName");
 
-                    b.ToTable("UserModel");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MentorshipProgram.Models.MenteeModel", b =>
@@ -142,6 +171,22 @@ namespace MentorshipProgram.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MentorshipProgram.Models.MessageModel", b =>
+                {
+                    b.HasOne("MentorshipProgram.Models.ChatModel", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("MentorshipProgram.Models.ChatModel", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

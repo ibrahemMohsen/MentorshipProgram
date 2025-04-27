@@ -7,9 +7,11 @@ namespace MentorshipProgram.Controllers
     public class UserController : Controller
     {
         private ApplicationDbContext _db { get; init; }
+        public UserModel _user { get; set; }
         public UserController(ApplicationDbContext db)
         {
             _db = db;
+            _user = null;
         }
         public IActionResult Index()
         {
@@ -25,11 +27,12 @@ namespace MentorshipProgram.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateMentor(MentorModel Mentor)
         {
-
+            Mentor.UserName = Mentor.User.UserName;
             try
             {
                 _db.Mentors.Add(Mentor);
                 _db.SaveChanges();
+                HttpContext.Session.SetString("UserName", Mentor.UserName);
             }
             catch (Exception e)
             {
@@ -52,6 +55,7 @@ namespace MentorshipProgram.Controllers
             {
                 _db.Mentees.Add(Mentee);
                 _db.SaveChanges();
+                HttpContext.Session.SetString("UserName", Mentee.UserName);
             }
             catch (Exception e)
             {
@@ -69,15 +73,37 @@ namespace MentorshipProgram.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SignIn(UserModel User)
         {
-            //try
-            //{
-            //    _db.Users.Add(User);
-            //    _db.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw;
-            //}
+            try
+            {
+                var user = _db.Users
+                    .FirstOrDefault(u => u.UserName == User.UserName
+                    && u.Password == User.Password);
+                var user_mentor = _db.Mentors
+                    .FirstOrDefault(m => m.UserName == User.UserName);
+                if (user_mentor is not null)
+                {
+
+                }
+                var user_mentee = _db.Mentees
+                    .FirstOrDefault(m => m.UserName == User.UserName);
+                if (user_mentee is not null)
+                {
+
+                }
+
+                if (user is not null)
+                {
+                    HttpContext.Session.SetString("UserName", user.UserName);
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
             return RedirectToAction("Index");
         }
 

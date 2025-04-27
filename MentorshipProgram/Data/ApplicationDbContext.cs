@@ -12,5 +12,15 @@ public class ApplicationDbContext: DbContext
     public DbSet<MenteeModel> Mentees { get; set; }
     public DbSet<MentorModel> Mentors { get; set; }
     public DbSet<MessageModel> Messages { get; set; }
+    public DbSet<ChatModel> Chats { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ChatModel>()
+            .HasMany(c => c.Messages)
+            .WithOne(m => m.Chat)
+            .HasForeignKey(m => m.ChatId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 
 }

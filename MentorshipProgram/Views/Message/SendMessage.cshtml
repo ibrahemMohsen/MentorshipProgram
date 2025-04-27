@@ -1,0 +1,31 @@
+﻿@using MentorshipProgram.DTOs
+@model SendMessageViewModel
+
+@{
+}
+
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">SendMesage</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="ReceiverEmail">Receiver Email</label>
+			<input asp-for="ReceiverEmail" class="form-control" />
+			<span asp-validation-for="ReceiverEmail" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Body">Your Message</label>
+			<input asp-for="Body" class="form-control" />
+			<span asp-validation-for="Body" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-primary" style="width:150px">Send</button>
+		<a asp-controller="Message" asp-action="SendMessage" class="btn btn-secondary" style="width:150px">
+			Back To List
+		</a>
+	</div>
+</form>
+

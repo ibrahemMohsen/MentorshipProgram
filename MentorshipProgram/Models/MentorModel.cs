@@ -5,9 +5,8 @@ namespace MentorshipProgram.Models;
 
 public class MentorModel
 {
-    [Key]
+    [Key, ForeignKey(nameof(User))]
     public string UserName { get; set; }
-    [ForeignKey("UserName")]
     public UserModel User { get; set; }
     [Required]
     public int YearsOfExperience { get; set; }
