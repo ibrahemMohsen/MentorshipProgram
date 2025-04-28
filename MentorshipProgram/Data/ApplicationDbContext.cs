@@ -13,6 +13,7 @@ public class ApplicationDbContext: DbContext
     public DbSet<MentorModel> Mentors { get; set; }
     public DbSet<MessageModel> Messages { get; set; }
     public DbSet<ChatModel> Chats { get; set; }
+    public DbSet<UserDetailsModel>UserDetails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
