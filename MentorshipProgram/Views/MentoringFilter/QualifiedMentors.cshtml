@@ -1,0 +1,45 @@
+﻿@model List<MentorModel>
+@{
+	ViewData["Title"] = "Qualified Mentors";
+}
+
+<table class="table table-bordered table-striped" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                UserName
+            </th>
+
+            <th>
+                Field
+            </th>
+
+            <th>
+                Years Of Experience
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mentor in Model)
+        {
+            <tr>
+                <td width="25%">
+                    @mentor.User.Name
+                </td>
+                <td width="25%">
+                    @mentor.UserName
+                </td>
+                <td width="25%">
+                    @mentor.User.Field
+                </td>
+                <td width="25%">
+                    @mentor.YearsOfExperience
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

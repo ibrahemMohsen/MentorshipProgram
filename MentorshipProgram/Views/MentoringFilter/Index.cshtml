@@ -1,0 +1,29 @@
+﻿@using MentorshipProgram.DTOs
+@model MentoringFilterViewModel
+
+@{
+    ViewData["Title"] = "Mentoring Filter";
+}
+
+<form asp-controller="MentoringFilter" asp-action="Index" method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Mentor</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Field">Field</label>
+			<input asp-for="Field" class="form-control" />
+			<span asp-validation-for="Field" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="YearsOfExperience">Years Of Experience</label>
+			<input asp-for="YearsOfExperience" class="form-control" />
+			<span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Search</button>
+		<a asp-controller="MentoringFilter" asp-action="Index" class="btn btn-secondary" style="width:150px">
+			Back To List
+		</a>
+	</div>
+</form>

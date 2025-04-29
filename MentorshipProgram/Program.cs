@@ -18,15 +18,15 @@ namespace MentorshipProgram
             //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 
-            // 1️⃣ Register an in-memory cache to back session storage
+
             builder.Services.AddDistributedMemoryCache();
 
-            // 2️⃣ Register session services and configure options
+
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);  // session expires after 30 min of inactivity
-                options.Cookie.HttpOnly = true;                   // client-side scripts can’t access the cookie
-                options.Cookie.IsEssential = true;                // sent even if user hasn’t consented to non-essential cookies
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
 
