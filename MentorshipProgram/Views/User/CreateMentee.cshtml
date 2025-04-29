@@ -1,4 +1,5 @@
-﻿@model MenteeModel
+﻿@using MentorshipProgram.DTOs
+@model CreateMenteeViewModel
 
 <form method="post">
 	<div class="border p-3 mt-4">
@@ -7,24 +8,24 @@
 			<hr />
 		</div>
 		<div class="mb-3">
-			<label asp-for="User.Name">Name</label>
-			<input asp-for="User.Name" class="form-control" />
-			<span asp-validation-for="User.Name" class="text-danger"></span>
+			<label asp-for="Name">Name</label>
+			<input asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
-			<label asp-for="User.UserName">User Name</label>
-			<input asp-for="User.UserName" class="form-control" />
-			<span asp-validation-for="User.UserName" class="text-danger"></span>
+			<label asp-for="UserName">User Name</label>
+			<input asp-for="UserName" class="form-control" />
+			<span asp-validation-for="UserName" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
-			<label asp-for="User.Password">Password</label>
-			<input asp-for="User.Password" class="form-control" />
-			<span asp-validation-for="User.Password" class="text-danger"></span>
+			<label asp-for="Password">Password</label>
+			<input type="password" asp-for="Password" class="form-control" />
+			<span asp-validation-for="Password" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
-			<label asp-for="User.Field">Field</label>
-			<input asp-for="User.Field" class="form-control" />
-			<span asp-validation-for="User.Field" class="text-danger"></span>
+			<label asp-for="Field">Field</label>
+			<input asp-for="Field" class="form-control" />
+			<span asp-validation-for="Field" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Interests">Interests</label>

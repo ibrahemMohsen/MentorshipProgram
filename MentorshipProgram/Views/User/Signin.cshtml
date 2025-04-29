@@ -2,9 +2,10 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+	ViewData["Title"] = "Sign In Page";
 }
-
-@model UserModel
+@using MentorshipProgram.DTOs;
+@model SignInViewModel
 
 <form method="post">
 	<div class="border p-3 mt-4">
@@ -19,7 +20,7 @@
 		</div>
 		<div class="mb-3">
 			<label asp-for="Password">Password</label>
-			<input asp-for="Password" class="form-control" />
+			<input type="password" asp-for="Password" class="form-control" />
 			<span asp-validation-for="Password" class="text-danger"></span>
 		</div>
 

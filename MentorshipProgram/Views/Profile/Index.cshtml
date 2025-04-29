@@ -2,7 +2,31 @@
 @{
     ViewData["Title"] = "Your Profile";
 }
+<style>
+    img.profile-picture {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    }
+    input.btn-primary {
+        margin-top: 20px;
+        margin-bottom: 20px
+    }
+</style>
 
 <div>
-    <img src="@Html.DisplayFor(model => model.ImageBase64)"/>
+    @if (Model is not null && Model.ImageBase64 is not null)
+    {
+        <img class="profile-picture" src="@Html.DisplayFor(model => model.ImageBase64)"/>
+    }
+    else
+    {
+        <img class="profile-picture" src="../wwwroot/images/images.png"/>
+        <input class="btn btn-primary"
+               type="button"
+               value="Upload Image"
+               onclick="window.location='@Url.Action("Create", "Profile")'" />
+    }
+
 </div>

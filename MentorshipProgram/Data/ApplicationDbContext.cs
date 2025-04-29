@@ -22,6 +22,10 @@ public class ApplicationDbContext: DbContext
             .WithOne(m => m.Chat)
             .HasForeignKey(m => m.ChatId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<MentorModel>()
+            .Navigation(m => m.User)
+            .AutoInclude();
     }
 
 }

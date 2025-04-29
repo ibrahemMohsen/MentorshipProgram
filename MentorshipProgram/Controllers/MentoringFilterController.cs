@@ -2,6 +2,7 @@
 using MentorshipProgram.DTOs;
 using MentorshipProgram.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace MentorshipProgram.Controllers;
 public class MentoringFilterController : Controller
@@ -34,6 +35,7 @@ public class MentoringFilterController : Controller
     [HttpGet]
     public IActionResult QualifiedMentors(List<MentorModel>? Mentors)
     {
+        
         return View(Mentors);
     }
 }
