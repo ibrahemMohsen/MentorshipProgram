@@ -104,7 +104,6 @@ public class UserController : Controller
         {
             try
             {
-                
                 UserModel? user = _db.Users
                     .FirstOrDefault(u => u.UserName == User.UserName
                     && u.Password == User.Password);

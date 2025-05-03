@@ -34,7 +34,6 @@ namespace MentorshipProgram.Controllers
                 UserDetailsModel userDetails = new()
                 {
                     UserName = HttpContext.Session.GetString("UserName"),
-                    User = null,
                     FileName = userDetailsDTO.FileName,
                     ContentType = userDetailsDTO.ContentType,
                     ImageFile = userDetailsDTO.ImageFile

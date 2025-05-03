@@ -1,4 +1,5 @@
 ﻿using MentorshipProgram.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 namespace MentorshipProgram
@@ -15,7 +16,7 @@ namespace MentorshipProgram
                 ));
 
             // Comment if Poor Performance is encoutered
-            builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+            //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 
 
@@ -24,7 +25,7 @@ namespace MentorshipProgram
 
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.IdleTimeout = TimeSpan.FromMinutes(120);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -46,6 +47,7 @@ namespace MentorshipProgram
             app.UseSession();
 
             app.UseAuthorization();
+
 
             app.MapControllerRoute(
                 name: "default",
