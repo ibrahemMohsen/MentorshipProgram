@@ -1,11 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using MentorshipProgram.DTOs;
+@model SignInViewModel
 @{
 	ViewData["Title"] = "Sign In Page";
 }
-@using MentorshipProgram.DTOs;
-@model SignInViewModel
 
 <form method="post">
 	<div class="border p-3 mt-4">
@@ -24,7 +21,7 @@
 			<span asp-validation-for="Password" class="text-danger"></span>
 		</div>
 
-		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<button type="submit" class="btn btn-primary" style="width:150px">Sign In</button>
 		<a asp-controller="User" asp-action="SignIn" class="btn btn-secondary" style="width:150px">
 			Back To List
 		</a>

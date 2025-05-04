@@ -34,19 +34,26 @@ public class MessageController : Controller
     [HttpPost]
     public IActionResult SendMessage(SendMessageViewModel Message)
     {
-        string? userName = HttpContext.Session.GetString("UserName");
-        ChatModel chat = GetOrCreateChat(userName, Message.ReceiverEmail);
-
-        MessageModel message = new()
+        if (ModelState.IsValid)
         {
-            SenderEmail = userName,
-            ReceiverEmail = Message.ReceiverEmail,
-            Body = Message.Body,
-            ChatId = chat.Id
-        };
-        _db.Messages.Add(message);
-        _db.SaveChanges();
-        return View();
+            string? userName = HttpContext.Session.GetString("UserName");
+            ChatModel chat = GetOrCreateChat(userName, Message.ReceiverEmail);
+
+            MessageModel message = new()
+            {
+                SenderEmail = userName,
+                ReceiverEmail = Message.ReceiverEmail,
+                Body = Message.Body,
+                ChatId = chat.Id
+            };
+            _db.Messages.Add(message);
+            _db.SaveChanges();
+            return View();
+        }
+        else
+        {
+            return View();
+        }
     }
 
 

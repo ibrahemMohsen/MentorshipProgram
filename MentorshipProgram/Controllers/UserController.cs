@@ -50,8 +50,12 @@ public class UserController : Controller
             {
                 throw;
             }
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+        else
+        {
+            return View();
+        }
     }
 
     public IActionResult CreateMentee()
@@ -87,8 +91,12 @@ public class UserController : Controller
             {
                 throw;
             }
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+        else
+        {
+            return View();
+        }
     }
     [HttpGet]
     public IActionResult SignIn()
@@ -121,8 +129,13 @@ public class UserController : Controller
             {
                 throw;
             }
+            return RedirectToAction(nameof(Index));
         }
-        return View("Index");
+        else
+        {
+            return View();
+        }
     }
+
    
 }
