@@ -7,6 +7,8 @@ namespace MentorshipProgram.Models;
 public class UserDetailsModel
 {
     [Key, ForeignKey(nameof(User))]
+    [EmailAddress]
+    [Length(8, 100)]
     public string UserName { get; set; }
     public UserModel User { get; set; }
 
