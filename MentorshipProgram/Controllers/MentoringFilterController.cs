@@ -16,12 +16,20 @@ public class MentoringFilterController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
         return View();
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Index(MentoringFilterViewModel filter)
     {
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
         if (ModelState.IsValid)
         {
             List<MentorModel>? qualifiedMentors = _db.Mentors
@@ -35,7 +43,10 @@ public class MentoringFilterController : Controller
     [HttpGet]
     public IActionResult QualifiedMentors(List<MentorModel>? Mentors)
     {
-        
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
         return View(Mentors);
     }
 }

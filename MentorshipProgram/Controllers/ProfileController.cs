@@ -16,12 +16,20 @@ namespace MentorshipProgram.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserName") is null)
+            {
+                return RedirectToAction(nameof(SignIn), nameof(User));
+            }
             UserDetailsModel details = _db.UserDetails.Find(HttpContext.Session.GetString("UserName"));
             return View(details);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserName") is null)
+            {
+                return RedirectToAction(nameof(SignIn), nameof(User));
+            }
             return View();
         }
         [HttpPost]

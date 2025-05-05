@@ -13,9 +13,14 @@ public class MessageController : Controller
     {
         _db = db;
     }
+    // All Messages in one chat (sender, receiver)
     [HttpGet]
     public IActionResult Index(string ReceiverEmail)
     {
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
         string? userName = HttpContext.Session.GetString("UserName");
         ChatModel chat = GetOrCreateChat(userName, ReceiverEmail);
 
@@ -31,9 +36,14 @@ public class MessageController : Controller
     {
         return View();
     }
+    // Send Message to a user
     [HttpPost]
     public IActionResult SendMessage(SendMessageViewModel Message)
     {
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
         if (ModelState.IsValid)
         {
             string? userName = HttpContext.Session.GetString("UserName");
@@ -56,7 +66,35 @@ public class MessageController : Controller
         }
     }
 
+    [HttpGet]
+    public IActionResult ListChats()
+    {
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
+        string userName = HttpContext.Session.GetString("UserName");
+        //List<ChatModel>? myChats = _db.Chats
+        //    .Where(c => c.Participant1Email == userName || c.Participant2Email == userName)
+        //    .ToList();
+        //List<MessageModel> lastMessages;
+        //foreach(ChatModel? chat in myChats)
+        //{
+        //    lastMessages.Add(chat.Messages.)
+        //}
 
+        var latestMessages = _db.Messages
+            .Where(m => m.Chat.Participant1Email == userName || m.Chat.Participant2Email == userName)
+            ?.GroupBy(m => m.ChatId)
+            ?.Select(g => g.OrderByDescending(m => m.TimeSent).FirstOrDefault())
+            ?.ToList();
+
+        return View(latestMessages);
+    }
+
+
+
+    //helper
     private ChatModel GetOrCreateChat(string Email1, string Email2)
     {
         int? id = _db.Chats

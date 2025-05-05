@@ -1,0 +1,52 @@
+﻿@model List<MessageModel>?
+@{
+	ViewData["title"] = "My Chats";
+}
+
+<h1>Your Chats</h1>
+
+
+<div class="d-flex">
+  <!-- Sidebar -->
+  <nav id="sidebar" class="bg-primary vh-100" style="width: 260px;">
+    <div class="p-3 border-bottom">
+      <h4 class="text-white mb-0">Chats</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+        @if (Model is not null)
+        {
+          @foreach (var chat in Model)
+          {
+            <li class="list-group-item list-group-item-action d-flex align-items-center">
+              <img src="@chat.Body" class="rounded-circle me-2" width="40" height="40" alt="avatar" />
+              <div class="flex-grow-1">
+                <strong>@chat.ReceiverEmail</strong>
+                <p class="mb-0 text-truncate">@chat.SenderEmail</p>
+              </div>
+            </li>
+          }
+        }
+    </ul>
+  </nav>
+
+  <!-- Chat Content -->
+  <div class="flex-grow-1 p-3">
+    <div class="border rounded d-flex flex-column h-100">
+      <!-- Header -->
+      <div class="bg-secondary text-white p-2">
+        <strong>@ViewBag.SelectedChatName</strong>
+      </div>
+      <!-- Messages -->
+      <div class="flex-grow-1 p-3 overflow-auto" style="background:#f8f9fa;">
+        @* Render message bubbles here *@
+      </div>
+      <!-- Input -->
+      <div class="p-3 border-top">
+        <form asp-action="SendMessage" method="post" class="d-flex">
+          <input type="text" name="message" class="form-control me-2" placeholder="Type a message..." />
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
