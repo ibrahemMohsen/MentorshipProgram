@@ -26,6 +26,50 @@ public class ApplicationDbContext: DbContext
         modelBuilder.Entity<MentorModel>()
             .Navigation(m => m.User)
             .AutoInclude();
+
+
+
+        //
+        // 1. Cascade‑delete for Mentee, Mentor, UserDetails → User
+        modelBuilder.Entity<MenteeModel>()
+            .HasOne(m => m.User)
+            .WithOne()
+            .HasForeignKey<MenteeModel>(m => m.UserName)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MentorModel>()
+            .HasOne(m => m.User)
+            .WithOne()
+            .HasForeignKey<MentorModel>(m => m.UserName)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserDetailsModel>()
+            .HasOne(d => d.User)
+            .WithOne()
+            .HasForeignKey<UserDetailsModel>(d => d.UserName)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 2. Message.SenderEmail & ReceiverEmail → User.UserName
+        modelBuilder.Entity<MessageModel>()
+            .HasOne<UserModel>()
+            .WithMany()
+            .HasForeignKey(m => m.SenderEmail);
+
+        modelBuilder.Entity<MessageModel>()
+            .HasOne<UserModel>()
+            .WithMany()
+            .HasForeignKey(m => m.ReceiverEmail);
+
+        // 3. Chat.Participant1Email & Participant2Email → User.UserName
+        modelBuilder.Entity<ChatModel>()
+            .HasOne<UserModel>()
+            .WithMany()
+            .HasForeignKey(c => c.Participant1Email);
+
+        modelBuilder.Entity<ChatModel>()
+            .HasOne<UserModel>()
+            .WithMany()
+            .HasForeignKey(c => c.Participant2Email);
     }
 
 }

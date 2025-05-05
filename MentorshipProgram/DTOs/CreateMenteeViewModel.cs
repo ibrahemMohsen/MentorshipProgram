@@ -7,6 +7,7 @@ namespace MentorshipProgram.DTOs;
 public class CreateMenteeViewModel
 {
     [Required]
+    [EmailAddress]
     [Length(8,100)]
     public string UserName { get; set; }
     [Required]
