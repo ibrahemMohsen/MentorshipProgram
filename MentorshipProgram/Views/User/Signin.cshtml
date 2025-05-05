@@ -22,8 +22,12 @@
 		</div>
 
 		<button type="submit" class="btn btn-primary" style="width:150px">Sign In</button>
-		<a asp-controller="User" asp-action="SignIn" class="btn btn-secondary" style="width:150px">
-			Back To List
+		<a class="btn btn-info asp-controller="User" asp-action="CreateMentor" class="btn btn-secondary" style="width:150px">
+			Create Mentor Account
+		</a>
+		
+		<a class="btn btn-info" asp-controller="User" asp-action="CreateMentee" class="btn btn-secondary" style="width:150px">
+			Create Mentee Account
 		</a>
 	</div>
 </form>
