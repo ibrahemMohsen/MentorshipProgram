@@ -1,21 +1,63 @@
-﻿@model ChatModel 
+﻿@using MentorshipProgram.DTOs
+@model ChattingViewModel
 @{
-    Layout = null; // or your site layout
+    var UserName = ViewBag.UserName as string;
+
+
+    string receiver = UserName == Model.Chat.Participant1Email
+    ? Model.Chat.Participant2Email
+    : Model.Chat.Participant1Email;
+
+    Model.SendMessage.ReceiverEmail = receiver;
 }
-<div class="container mt-4">
-    <h4>Your Chats</h4>
-    <ul class="list-group">
-        
-        @foreach (MessageModel? chat in Model.Messages)
-        {
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">@chat.SenderEmail</div>
-                    <div class="fw-bold">@chat.ReceiverEmail</div>
-                    <div class="fw-bold">@chat.Body</div>
-                    <div class="fw-bold">@chat.TimeSent</div>
+<div class="container py-3">
+    <div class="card">
+        <div class="card-header">
+            Chat between @Model.Chat.Participant1Email and @Model.Chat.Participant2Email
+        </div>
+
+        <div id="chatWindow" class="card-body" style="height: 400px; overflow-y: auto;">
+            @foreach (var msg in Model.Chat.Messages)
+            {
+                var isMine = msg.SenderEmail == UserName;
+                <div class="d-flex mb-2 @(isMine ? "justify-content-end" : "justify-content-start")">
+                    <div class="px-3 py-2 rounded @(isMine ? "bg-primary text-white" : "bg-light")" style="max-width: 70%;">
+                        <small class="text-muted">@msg.TimeSent.ToString("hh:mm tt")</small>
+                        <div>@msg.Body</div>
+                    </div>
                 </div>
-            </li>
-        }
-    </ul>
+            }
+        </div>
+
+        <div class="card-footer">
+            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { @class = "d-flex" }))
+            {
+                @* Hidden fields to round‑trip the Chat identifier (and any other metadata you need) *@
+                @Html.HiddenFor(m => m.Chat.Id)
+                @* If your action needs to know participants, you can also send these: *@
+                @Html.HiddenFor(m => m.Chat.Participant1Email)
+                @Html.HiddenFor(m => m.Chat.Participant2Email)
+
+                @Html.Hidden("SendMessage.ReceiverEmail", receiver);
+                @* Text input for the new message body *@
+                @Html.TextBoxFor(m => m.SendMessage.Body,
+                         new
+                         {
+                             @class = "form-control me-2",
+                             placeholder = "Type your message…",
+                             autocomplete = "off"
+                         })
+
+                <button type="submit" class="btn btn-primary">Send</button>
+            }
+        </div>
+
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        var cw = document.getElementById("chatWindow");
+        cw.scrollTop = cw.scrollHeight;
+    </script>
+}

@@ -15,21 +15,29 @@ public class MessageController : Controller
     }
     // All Messages in one chat (sender, receiver)
     [HttpGet]
-    public IActionResult Index(string ReceiverEmail)
+    public IActionResult Index(int ChatId)
     {
         if (HttpContext.Session.GetString("UserName") is null)
         {
             return RedirectToAction(nameof(SignIn), nameof(User));
         }
         string? userName = HttpContext.Session.GetString("UserName");
-        ChatModel chat = GetOrCreateChat(userName, ReceiverEmail);
+        ChatModel chat = GetChat(ChatId);
 
         var messages = _db.Messages
         .Where(m => m.ChatId == chat.Id)
         .ToList();
         chat.Messages = messages;
 
-        return View(chat);
+        ChattingViewModel chatting = new()
+        {
+            Chat = chat,
+            SendMessage = new SendMessageViewModel()
+        };
+        ViewBag.UserName = HttpContext.Session.GetString("UserName");
+
+
+        return View(chatting);
     }
     [HttpGet]
     public IActionResult SendMessage()
@@ -38,8 +46,9 @@ public class MessageController : Controller
     }
     // Send Message to a user
     [HttpPost]
-    public IActionResult SendMessage(SendMessageViewModel Message)
+    public IActionResult SendMessage(ChattingViewModel model)
     {
+        SendMessageViewModel Message = model.SendMessage;
         if (HttpContext.Session.GetString("UserName") is null)
         {
             return RedirectToAction(nameof(SignIn), nameof(User));
@@ -58,7 +67,38 @@ public class MessageController : Controller
             };
             _db.Messages.Add(message);
             _db.SaveChanges();
+            return RedirectToAction("Index", new { ChatId = chat.Id }); ;
+        }
+        else
+        {
             return View();
+        }
+    }
+
+
+    [HttpPost]
+    public IActionResult SendMessageNewChat(ListChatsViewModel model)
+    {
+        SendMessageViewModel Message = model.SendMessage;
+        if (HttpContext.Session.GetString("UserName") is null)
+        {
+            return RedirectToAction(nameof(SignIn), nameof(User));
+        }
+        if (ModelState.IsValid)
+        {
+            string? userName = HttpContext.Session.GetString("UserName");
+            ChatModel chat = GetOrCreateChat(userName, Message.ReceiverEmail);
+
+            MessageModel message = new()
+            {
+                SenderEmail = userName,
+                ReceiverEmail = Message.ReceiverEmail,
+                Body = Message.Body,
+                ChatId = chat.Id
+            };
+            _db.Messages.Add(message);
+            _db.SaveChanges();
+            return RedirectToAction("Index", new { ChatId = chat.Id }); ;
         }
         else
         {
@@ -88,8 +128,13 @@ public class MessageController : Controller
             ?.GroupBy(m => m.ChatId)
             ?.Select(g => g.OrderByDescending(m => m.TimeSent).FirstOrDefault())
             ?.ToList();
+        ListChatsViewModel Chats = new()
+        {
+            Messages = latestMessages,
+            SendMessage = new SendMessageViewModel()
+        };
 
-        return View(latestMessages);
+        return View(Chats);
     }
 
 
@@ -118,5 +163,9 @@ public class MessageController : Controller
             _db.SaveChanges();
         }
         return chat;
+    }
+    private ChatModel? GetChat(int ChatId)
+    {
+        return _db.Chats.FirstOrDefault(c => c.Id == ChatId);
     }
 }
